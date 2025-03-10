@@ -1,0 +1,158 @@
+.navbar{
+    height: 56px;
+    background: linear-gradient(to right, #1f2023, #3a3d42); /* Soldan sağa koyu-açık-koyu geçiş */
+    
+}
+
+.navbar-nav {
+    gap: 20px; 
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8); /* Hafif soluk beyaz */
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+    padding: 8px 15px;
+    border-radius: 8px; /* Kenarları hafif yuvarlat */
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #ffcc00;
+    transition: all 0.3s ease-in-out;
+    transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffcc00; /* Altın sarısı hover rengi */
+    background-color: rgba(255, 255, 255, 0.2); /* Hafif transparan arka plan */
+    text-shadow: 0px 0px 8px rgba(255, 204, 0, 0.8); /* Hafif parlama efekti */
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+:root {
+    --navbar-height: 56px;
+}
+
+.sidebar {
+    width: 250px;
+    height: calc(100vh - var(--navbar-height));
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    background: linear-gradient(to bottom, #1f2023, #3a3d42);
+    color: white;
+    padding: 15px;
+    overflow-y: auto;
+    padding-bottom: 100px;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sidebar a:hover {
+    background: #555;
+}
+
+.profile, .bio-section, .social-links {
+    background: rgba(255, 255, 255, 0.1); /* Hafif saydam arka plan */
+    padding: 20px;
+    margin-bottom: 50px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Hafif gölge efekti */
+    transition: all 0.3s ease-in-out;
+    position: relative; /* Altın çizgi için gerekli */
+}
+
+/* Hover efekti: Altın parlama + alt çizgi animasyonu */
+.profile:hover, .bio-section:hover, .social-links:hover {
+    box-shadow: 0px 0px 15px rgba(255, 204, 0, 0.8); /* Altın sarısı gölge efekti */
+    text-shadow: 0px 0px 8px rgba(255, 204, 0, 0.8); /* Yazılara hafif parlama */
+    transform: scale(1.05); /* Hover yapınca hafif büyüsün */
+}
+
+.profile::after, .bio-section::after, .social-links::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    width: 0;
+    height: 2px;
+    background-color: #ffcc00; /* Altın sarısı */
+    transition: 0.3s ease-in-out;
+    transform: translateX(-50%);
+}
+
+.profile:hover::after, .bio-section:hover::after, .social-links:hover::after {
+    width: 80%; /* Çizgi genişliği hover ile büyür */
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+.profile-placeholder {
+    margin: 0 auto;
+    width: 120px;
+    height: 120px;
+    background-color: #666; /* Gri arka plan */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 50px;
+    border: 3px solid white;
+}
+
+.social-links {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+
+
+/* Sayfa içeriği */
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    flex: 1;
+}

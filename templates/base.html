@@ -12,7 +12,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'portfolio_app/base.css' %}">
+    <link rel="stylesheet" href="{% static 'portfolio_app/css/base.css' %}">
+    <script src="{% static 'portfolio_app/js/dark-mode.js' %}"></script>
+
 </head>
 <body>
 
@@ -28,15 +30,21 @@
 
             <!-- Nav Links (Desktop) -->
             <div class="collapse navbar-collapse justify-content-center d-none d-lg-flex">
-                <ul class="navbar-nav fw-bold">
+                <ul class="navbar-nav mt-1">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                        <a class="nav-link fs-5 fw-bold text-white" href="{% url 'home' %}">
+                            <i class="fas fa-home"></i> Anasayfa
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
+                        <a class="nav-link fs-5 fw-bold text-white" href="{% url 'blog' %}">
+                            <i class="fa-solid fa-pen-to-square"></i> Blog
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
+                        <a class="nav-link fs-5 fw-bold text-white" href="{% url 'projects' %}">
+                            <i class="fa-solid fa-diagram-project"></i> Projelerim
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -58,45 +66,40 @@
     <aside class="sidebar d-none d-lg-block">
         <!-- Profile Section -->
         <div class="profile text-center">
-            <img src="{% static 'portfolio_app/profil.jpeg' %}" alt="Yusuf Çelebi" class="profile-img">
-            <h2>Yusuf Çelebi</h2>
-            <h4>Bilgisayar Mühendisi</h4>
+            
+            
+            {% if profile.profile_picture %}
+            <img src="{{profile.profile_picture.url}}" alt="Yusuf Çelebi" class="profile-img">
+            {% else %}
+                <img src="{% static 'portfolio_app/images/profil.png' %}" alt="Varsayılan Profil Resmi">
+            {% endif %}
+            
+            <h2>{{profile.name}}</h2>
+            
+            <h4>{{profile.profession}}</h4>
         </div>
         <!-- Bio -->
         <div class="bio-section mt-3">
             <p>
-                Bilgisayarlı görü ve derin öğrenme alanlarında çalışan bir bilgisayar mühendisiyim.  
-                Gerçek zamanlı nesne tespiti, görüntü işleme ve yapay zeka projeleri geliştiriyorum.  
-                Problem çözmeyi ve algoritmalarla düşünmeyi seviyorum.
+                {{profile.bio}}
             </p>
         </div>
         <!-- Social Links -->
         <div class="social-links mt-3">
-            <a href="https://github.com/YusufCelebii" target="_blank">
-                <i class="fab fa-github"></i> Github
-            </a>
-            <a href="https://www.linkedin.com/in/yusufcelebi16/" target="_blank">
-                <i class="fab fa-linkedin"></i> LinkedIn
-            </a>
-            <a href="https://www.instagram.com/yusuf_celebii_/" target="_blank">
-                <i class="fab fa-instagram"></i> Instagram
-            </a>
-            <a href="https://www.youtube.com/@YusufCelebiii" target="_blank">
-                <i class="fab fa-youtube"></i> Youtube
-            </a>
+            {% for platform, data in profile.social_links.items %}
+                <a href="{{ data.url }}" target="_blank">
+                    <i class="{{ data.icon }}"></i> {{ platform|title }}
+                </a>
+            {% endfor %}
         </div>
         <!-- Connection Links -->
         <div class="connection-links mt-3">
             <h3>İletişim</h3>
-            <a href="tel:+905459275502" target="_blank">
-                <i class="fas fa-phone"></i> Tel
-            </a>
-            <a href="mailto:16celebiyusuf@gmail.com" target="_blank">
-                <i class="fas fa-envelope"></i> E-mail
-            </a>
-            <a href="https://wa.me/905459275502" target="_blank">
-                <i class="fab fa-whatsapp"></i> Whatsapp
-            </a>
+            {% for key, data in profile.communication_links.items %}
+                <a href="{{ data.url }}" target="_blank">
+                    <i class="{{ data.icon }}"></i> {{ data.label }}
+                </a>
+            {% endfor %}
         </div>
     </aside>
 
@@ -112,18 +115,18 @@
             <!-- Nav Links -->
             <ul class="navbar-nav mt-1">
                 <li class="nav-item">
-                    <a class="nav-link fs-5 fw-bold text-white" href="#">
-                        <i class="fas fa-home"></i> Home
+                    <a class="nav-link fs-5 fw-bold text-white" href="{% url 'home'%}">
+                        <i class="fas fa-home"></i> Anasayfa
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-5 fw-bold text-white" href="#">
+                    <a class="nav-link fs-5 fw-bold text-white" href="{% url 'blog'%}">
                         <i class="fa-solid fa-pen-to-square"></i> Blog
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-5 fw-bold text-white" href="#">
-                        <i class="fa-solid fa-diagram-project"></i> Projects
+                    <a class="nav-link fs-5 fw-bold text-white" href="{% url 'projects'%}">
+                        <i class="fa-solid fa-diagram-project"></i> Projelerim
                     </a>
                 </li>
             </ul>
@@ -132,107 +135,46 @@
 
             <!-- Profile section(Mobil) -->
             <div class="profile text-center mt-5">
-                <img src="{% static 'portfolio_app/profil.jpeg' %}" alt="Yusuf Çelebi" class="profile-img">
-                <h2>Yusuf Çelebi</h2>
-                <h4>Bilgisayar Mühendisi</h4>
+                {% if profile.profile_picture %}
+                <img src="{{profile.profile_picture.url}}" alt="Yusuf Çelebi" class="profile-img">
+                {% else %}
+                    <img src="{% static 'portfolio_app/images/profil.png' %}" alt="Varsayılan Profil Resmi">
+                {% endif %}                <h2>{{profile.name}}</h2>
+                <h4>{{profile.profession}}</h4>
             </div>
 
             <div class="bio-section mt-3">
                 <p>
-                    Bilgisayarlı görü ve derin öğrenme alanlarında çalışan bir bilgisayar mühendisiyim.  
-                    Gerçek zamanlı nesne tespiti, görüntü işleme ve yapay zeka projeleri geliştiriyorum.  
-                    Problem çözmeyi ve algoritmalarla düşünmeyi seviyorum.
+                    {{profile.bio}}
                 </p>
             </div>
 
             <div class="social-links mt-3">
-                <a href="https://github.com/YusufCelebii" target="_blank">
-                    <i class="fab fa-github"></i> Github
-                </a>
-                <a href="https://www.linkedin.com/in/yusufcelebi16/" target="_blank">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                </a>
-                <a href="https://www.instagram.com/yusuf_celebii_/" target="_blank">
-                    <i class="fab fa-instagram"></i> Instagram
-                </a>
-                <a href="https://www.youtube.com/@YusufCelebiii" target="_blank">
-                    <i class="fab fa-youtube"></i> Youtube
-                </a>
+                {% for platform, data in profile.social_links.items %}
+                    <a href="{{ data.url }}" target="_blank">
+                        <i class="{{ data.icon }}"></i> {{ platform|title }}
+                    </a>
+                {% endfor %}
             </div>
-
+            <!-- Connection Links -->
             <div class="connection-links mt-3">
                 <h3>İletişim</h3>
-                <a href="tel:+905459275502" target="_blank">
-                    <i class="fas fa-phone"></i> Tel
-                </a>
-                <a href="mailto:16celebiyusuf@gmail.com" target="_blank">
-                    <i class="fas fa-envelope"></i> E-mail
-                </a>
-                <a href="https://wa.me/905459275502" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Whatsapp
-                </a>
+                {% for key, data in profile.communication_links.items %}
+                    <a href="{{ data.url }}" target="_blank">
+                        <i class="{{ data.icon }}"></i> {{ data.label }}
+                    </a>
+                {% endfor %}
+            </div>
             </div>
         </div>
     </div>
 
-    <!-- ============================= -->
-    <!--          CONTENT              -->
-    <!-- ============================= -->
+   
     <main class="content">
         {% block content %}
+        
         {% endblock %}
     </main>
-
-    <!-- ============================= -->
-    <!--        DARK MODE SCRIPT      -->
-    <!-- ============================= -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const toggleDarkMode = document.getElementById("toggleDarkMode");
-            const content = document.querySelector(".content");
-            const sunIcon = document.querySelector(".sun-icon");
-            const moonIcon = document.querySelector(".moon-icon");
-        
-           
-            const darkModePreference = localStorage.getItem("darkModeActive");
-        
-           
-            if (darkModePreference === "true") {
-                content.classList.add("dark-mode");
-                toggleDarkMode.checked = true;
-            }
-        
-            
-            function updateIcons() {
-                if (content.classList.contains("dark-mode")) {
-                    sunIcon.style.textShadow = "none";
-                    sunIcon.style.opacity = "0.3";
-                    moonIcon.style.textShadow = "0px 0px 20px rgba(255, 255, 150, 1)";
-                    moonIcon.style.opacity = "1";
-                } else {
-                    sunIcon.style.textShadow = "0px 0px 20px rgba(255, 204, 0, 1)";
-                    sunIcon.style.opacity = "1";
-                    moonIcon.style.textShadow = "none";
-                    moonIcon.style.opacity = "0.3";
-                }
-            }
-        
-            
-            toggleDarkMode.addEventListener("change", function() {
-                content.classList.toggle("dark-mode");
-        
-                
-                const isDarkModeActive = content.classList.contains("dark-mode");
-                
-                localStorage.setItem("darkModeActive", isDarkModeActive);
-        
-                updateIcons();
-            });
-        
-            
-            updateIcons();
-        });
-        </script>
         
 </body>
 </html>
